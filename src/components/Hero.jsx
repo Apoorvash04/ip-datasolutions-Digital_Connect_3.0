@@ -11,6 +11,8 @@ export function Navbar() {
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const isServicesPage = window.location.pathname.replace(/\/$/, '') === '/services'
+  const linkHref = (label) => label === 'Services' ? '/services' : `${isServicesPage ? '/' : ''}#${label.toLowerCase()}`
   useMotionValueEvent(scrollY, 'change', (v) => {
     const prev = scrollY.getPrevious() ?? 0
     setHidden(v > prev && v > 300 && !open)
@@ -19,14 +21,14 @@ export function Navbar() {
   return (
     <motion.header className={`nav ${scrolled ? 'nav-scrolled' : ''}`}
       animate={{ y: hidden ? '-110%' : 0 }} transition={{ duration: 0.35, ease: 'easeInOut' }}>
-      <a href="#top" className="nav-brand"><LogoMark size={34} id="nav" /><Wordmark /></a>
+      <a href="/" className="nav-brand"><LogoMark size={34} id="nav" /><Wordmark /></a>
       <nav className="nav-links">
         {links.map((l, i) => (
-          <motion.a key={l} href={`#${l.toLowerCase()}`} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
+          <motion.a key={l} href={linkHref(l)} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.4 + i * 0.08 }}>{l}</motion.a>
         ))}
       </nav>
-      <a href="#contact" className="btn btn-primary btn-sm nav-cta">Get a Quote</a>
+      <a href={isServicesPage ? '/#contact' : '#contact'} className="btn btn-primary btn-sm nav-cta">Get a Quote</a>
       <button className={`burger ${open ? 'open' : ''}`} onClick={() => setOpen(!open)} aria-label="Menu">
         <span /><span />
       </button>
@@ -34,7 +36,7 @@ export function Navbar() {
         {open && (
           <motion.div className="mobile-menu" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
             {links.map((l, i) => (
-              <motion.a key={l} href={`#${l.toLowerCase()}`} onClick={() => setOpen(false)}
+              <motion.a key={l} href={linkHref(l)} onClick={() => setOpen(false)}
                 initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}>{l}</motion.a>
             ))}
           </motion.div>

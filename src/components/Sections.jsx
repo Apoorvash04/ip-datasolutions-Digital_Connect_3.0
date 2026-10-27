@@ -335,6 +335,7 @@ export function Contact() {
 
 /* ---------------- Footer ---------------- */
 export function Footer() {
+  const isServicesPage = window.location.pathname.replace(/\/$/, '') === '/services'
   return (
     <footer className="footer">
       <div className="footer-big">
@@ -344,9 +345,9 @@ export function Footer() {
         ))}
       </div>
       <div className="footer-row">
-        <a href="#top" className="nav-brand"><LogoMark size={30} id="foot" /><Wordmark /></a>
+        <a href="/" className="nav-brand"><LogoMark size={30} id="foot" /><Wordmark /></a>
         <div className="footer-links">
-          {['Services', 'Infrastructure', 'Process', 'Contact'].map((l) => <a key={l} href={`#${l.toLowerCase()}`}>{l}</a>)}
+          {['Services', 'Infrastructure', 'Process', 'Contact'].map((l) => <a key={l} href={l === 'Services' ? '/services' : `${isServicesPage ? '/' : ''}#${l.toLowerCase()}`}>{l}</a>)}
         </div>
         <span className="copy">© {new Date().getFullYear()} Digital Connect. All rights reserved.</span>
       </div>
