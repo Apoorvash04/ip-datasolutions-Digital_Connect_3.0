@@ -15,12 +15,13 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; width: 100%; overflow-x: clip; }
+body, #root { width: 100%; min-width: 0; }
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Inter', system-ui, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3, h4, .wordmark, .btn, .stat-num { font-family: 'Space Grotesk', sans-serif; }
@@ -446,6 +447,54 @@ a { color: inherit; text-decoration: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
+
+/* Keep grid and flex children inside the viewport at intermediate widths too. */
+main, section, .section, .hero-inner, .infra-grid, .contact-grid,
+.directory-hero-inner, .directory-content, .service-timeline-row,
+.service-timeline-card-wrap, .contact-form, .footer-row { min-width: 0; }
+img, svg, video, canvas { max-width: 100%; }
+input, select, textarea, button { max-width: 100%; }
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hero-inner { grid-template-columns: minmax(0, 1fr); }
+  .hero-text, .hero-visual { min-width: 0; }
+  .directory-hero-inner { grid-template-columns: minmax(0, 1fr) minmax(260px, .75fr); }
+  .directory-orbit { width: min(100%, 340px); }
+  .directory-heading { align-items: flex-start; }
+  .directory-nav { grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); }
+  .directory-group { grid-template-columns: minmax(170px, 220px) minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .directory-hero-inner { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .directory-orbit { width: min(100%, 340px); }
+  .directory-heading { display: block; }
+  .directory-heading > p { margin-top: 14px; }
+  .active-category-heading { align-items: flex-start; flex-wrap: wrap; }
+}
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: clamp(2.2rem, 10vw, 3.2rem); }
+  .hero-visual { --orbit-r: clamp(112px, 36vw, 135px); }
+  .visual-3d { width: min(320px, 88vw); height: min(320px, 88vw); }
+  .testi { min-height: 0; }
+  .cta-banner { padding: 56px 20px; }
+  .contact-grid, .contact-form, .contact-form .row { min-width: 0; }
+  .directory-hero-foot { gap: 12px; }
+  .directory-hero-foot span:last-child { text-align: right; }
+  .directory-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .category-option-copy strong { white-space: normal; }
+}
+
+@media (max-width: 360px) {
+  .nav-brand { gap: 7px; }
+  .wordmark { font-size: .9rem; }
+  .hero { padding-inline: 12px; }
+  .hero h1 { font-size: 2.05rem; }
+  .hero-btns .btn { padding: 13px 18px; font-size: .88rem; }
+  .directory-hero, .directory-content { padding-inline: 16px; }
+  .directory-nav a { font-size: .68rem; }
 }
 
 /* ---------- Services directory page ---------- */
